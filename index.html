@@ -51,15 +51,36 @@
 	<script src="./src/leaflet-search.js"></script>		
 
 <script>
-// 1. Initialisierung der Karte auf Berlin Zentrum
+// Initialisierung der Karte auf Berlin Zentrum
 var map = L.map('map').setView([52.500623108593, 13.376227531435], 13); 
 
-
+// Layer 1
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
 	attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+// Layer 2
+
+var berlin1925 = L.tileLayer('https://warper.wmflabs.org/maps/tile/1145/{z}/{x}/{y}.png', {
+    layers: 'berlin1925',
+    format: 'image/png',
+    transparent: true,
+	maxZoom: 18,
+    attribution: '&copy; Wikimaps Warper'
+}).addTo(map);
+
+// Layer-Steuerung
+var baseMaps = {
+    "OpenStreetMap": osm
+};
+var overlayMaps = {
+    "Berlin um 1925": berlin1925,
+	"straube": straube
+	
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 var markers = new L.MarkerClusterGroup();
         for (var i = 0; i < addressPoints.length; i++) {
