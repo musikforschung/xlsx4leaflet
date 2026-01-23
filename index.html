@@ -60,35 +60,6 @@ var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// 2. Optionale Basiskarte
-var berlin1925 = L.tileLayer('https://warper.wmflabs.org/maps/tile/1145/{z}/{x}/{y}.png', {
-    layers: 'berlin1925',
-    format: 'image/png',
-    transparent: true,
-	maxZoom: 18,
-    attribution: '&copy; Wikimaps Warper'
-}).addTo(map);
-
-// 3. Optionale Basiskarte
-var straube = L.tileLayer('https://warper.wmflabs.org/maps/tile/1220/{z}/{x}/{y}.png', {
-    layers: 'straube',
-    format: 'image/png',
-    transparent: true,
-	maxZoom: 18,
-    attribution: '&copy; Wikimaps Warper'
-}).addTo(map);
-
-// 4. Layer-Steuerung hinzufügen (optional)
-var baseMaps = {
-    "OpenStreetMap": osm
-};
-var overlayMaps = {
-    "Berlin um 1925": berlin1925,
-	"straube": straube
-	
-};
-
-L.control.layers(baseMaps, overlayMaps).addTo(map);
 
 var markers = new L.MarkerClusterGroup();
         for (var i = 0; i < addressPoints.length; i++) {
@@ -109,12 +80,6 @@ var markers = new L.MarkerClusterGroup();
 	map.addLayer(markers);
     
 
-var pulsingIcon = L.icon.pulse({iconSize:[12,12],color:'red'});
-
-		var markerI = L.marker([52.51770,13.39158],{icon: pulsingIcon}).addTo(map);
-		markerI.bindPopup(title);
-		markers.addLayer(marker);
-	
 var controlSearch = new L.Control.Search({
 		position:'topleft',
 		layer: markers,
