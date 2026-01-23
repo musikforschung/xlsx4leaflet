@@ -39,10 +39,19 @@ coordinates
 * depictionLicense (string)
 * depictionLicenseURI (string, URI)
 
+# Usage
+
+* clone repository
+* use template.xlsx to add some data
+* run shell and give the project a title
+* use GitHub pages to visualize the data
 
 # Author
 
 René Wallor, wallor at sim.spk-berlin.de
 
+#Licence
+
+Leaflet - BSD 2-Clause License
 
 </details>
