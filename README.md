@@ -42,6 +42,7 @@ coordinates
 # Usage
 
 * clone repository
+* `chmod +x ./shell/xlsx4leaflet.sh`
 * use template.xlsx to add some data
 * run shell and give the project a title
 * use GitHub pages to visualize the data

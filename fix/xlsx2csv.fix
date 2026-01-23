@@ -14,5 +14,4 @@ if any_match(depictionName,"http.*")
    remove_field(depictionFormat)
    remove_field(depictionWidth)
    remove_field(depictionHighth)
-
 end
