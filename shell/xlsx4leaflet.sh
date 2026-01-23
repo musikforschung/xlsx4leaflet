@@ -18,6 +18,10 @@ if [ -f template.js ]; then
    rm template.js
 fi &&
 
+if [ -f template.csv ]; then
+   rm template.csv
+fi &&
+
 if [ -f template.xlsx ]; then
    mv template.xlsx ${Title}.xlsx
 fi &&
