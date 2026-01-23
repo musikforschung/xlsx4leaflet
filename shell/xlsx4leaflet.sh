@@ -34,6 +34,7 @@ catmandu convert XLSX to Text --fix ./fix/xlsx4leaflet.fix < ${Title}.xlsx > ${T
 sed -i '1ivar addressPoints = [' ${Title}.js &&
 sed -i '$a];' ${Title}.js &&
 
-catmandu convert XLSX to CSV --fix ./fix/xlsx2csv.fix < ${Title}.xlsx > ${Title}.csv
+cd fix
+catmandu convert xlsx < ../${Title}.xlsx > ../${Title}.csv &&
 
 echo "Verarbeitung erfolgreich."

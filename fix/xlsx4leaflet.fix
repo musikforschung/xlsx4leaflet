@@ -1,9 +1,3 @@
-#xlsx2js.fix
-#catmandu convert XLSX to Text --fix xlsx2js.fix < template.xlsx > template.js
-
-################noch Fehlermeldung einbauen###############
-
-##if exist latitude
 
 #latitude
 if any_match(latitude,'^-?\d{1,3}\.\d+$')

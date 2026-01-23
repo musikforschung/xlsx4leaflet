@@ -10,8 +10,3 @@ unless any_match(depictionName,"http.*")
    remove_field(depictionLicenseURI)
    remove_field(depictionName)
 end
-if any_match(depictionName,"http.*")
-   remove_field(depictionFormat)
-   remove_field(depictionWidth)
-   remove_field(depictionHighth)
-end
