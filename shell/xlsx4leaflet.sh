@@ -6,10 +6,10 @@ sgr0="`tput sgr0`"
 cyan="`tput setaf 6`"
 
 #Abfrage des Projekttitels und automatische Vergabe als Dateinamen etc.
-read -p "${cyan}			Bitte einen Projekttiel eingeben: ${sgr0}" Title
-while [[ ! "$Title" =~ .* ]] ; do
+read -p "${cyan}			Bitte einen Projekttiel ohne Leer- und Sonderzeichen eingeben: ${sgr0}" Title
+while [[ ! "$Title" =~ ^[a-zA-Z0-9._-]+$ ]] ; do
   echo "${red}Ungültige Eingabe${sgr0}"
-  read -p "${cyan}			Bitte einen Projekttiel eingeben: ${sgr0}" Title
+  read -p "${cyan}			Bitte einen anderen Titel ohne Leer- und Sonderzeichen eingeben: ${sgr0}" Title
 done
 echo "
 Verarbeitung begonnen"
