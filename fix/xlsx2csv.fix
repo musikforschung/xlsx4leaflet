@@ -1,0 +1,17 @@
+unless any_match(depictionName,"http.*")
+   remove_field(depictionFormat)
+   remove_field(depictionWidth)
+   remove_field(depictionHighth)
+   remove_field(depictionText)
+   remove_field(depictionCreator)
+   remove_field(depictionPublisher)
+   remove_field(depictionSource)
+   remove_field(depictionLicense)
+   remove_field(depictionLicenseURI)
+   remove_field(depictionName)
+end
+if any_match(depictionName,"http.*")
+   remove_field(depictionFormat)
+   remove_field(depictionWidth)
+   remove_field(depictionHighth)
+end

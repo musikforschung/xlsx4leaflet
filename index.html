@@ -1,0 +1,146 @@
+  <!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>xlsx4leaflet</title>
+
+	<link rel="stylesheet" href="./lib/mapbox.css" />
+	<script src="./lib/mapbox.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="./dist/MarkerCluster.css" />
+	<link rel="stylesheet" href="./dist/MarkerCluster.Default.css" />
+	<script src="./dist/leaflet.markercluster-src.js"></script>
+	<script charset="UTF-8" src="template.js"></script>
+	
+	
+ <link rel="stylesheet" href="./dist/leaflet.css" />
+ <link rel="stylesheet" href="./src/leaflet-search.css" /> 
+ <link rel="stylesheet" href="style.css" />					
+
+ 
+	
+	<style>
+			body {
+				padding: 0;
+				margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+	</style>
+	<style type="text/css">
+		a:link { text-decoration:none; }
+	</style>
+	
+	<link rel="stylesheet" href="./dist/L.Icon.Pulse.css" />
+	
+
+	
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<body>
+
+	<div id="map"></div>
+	
+	
+	
+	<script type="text/javascript"></script>
+	<script src="./dist/L.Icon.Pulse.js"></script>
+	<script src="./dist/leaflet.js"></script>
+	<script src="./src/leaflet-search.js"></script>		
+
+<script>
+// 1. Initialisierung der Karte auf Berlin Zentrum
+var map = L.map('map').setView([52.500623108593, 13.376227531435], 13); 
+
+
+var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+	attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+// 2. Optionale Basiskarte
+var berlin1925 = L.tileLayer('https://warper.wmflabs.org/maps/tile/1145/{z}/{x}/{y}.png', {
+    layers: 'berlin1925',
+    format: 'image/png',
+    transparent: true,
+	maxZoom: 18,
+    attribution: '&copy; Wikimaps Warper'
+}).addTo(map);
+
+// 3. Optionale Basiskarte
+var straube = L.tileLayer('https://warper.wmflabs.org/maps/tile/1220/{z}/{x}/{y}.png', {
+    layers: 'straube',
+    format: 'image/png',
+    transparent: true,
+	maxZoom: 18,
+    attribution: '&copy; Wikimaps Warper'
+}).addTo(map);
+
+// 4. Layer-Steuerung hinzufügen (optional)
+var baseMaps = {
+    "OpenStreetMap": osm
+};
+var overlayMaps = {
+    "Berlin um 1925": berlin1925,
+	"straube": straube
+	
+};
+
+L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+var markers = new L.MarkerClusterGroup();
+        for (var i = 0; i < addressPoints.length; i++) {
+			var a = addressPoints[i];
+			var title = a[2];
+			var name = a[3]
+			var colormarker = a[4]
+			var typemarker = a[5]
+			var marker = L.marker(new L.LatLng(a[0], a[1]), 
+				{
+				title: name
+			});
+			marker.bindPopup(title);
+			markers.addLayer(marker);
+		}
+	
+
+	map.addLayer(markers);
+    
+
+var pulsingIcon = L.icon.pulse({iconSize:[12,12],color:'red'});
+
+		var markerI = L.marker([52.51770,13.39158],{icon: pulsingIcon}).addTo(map);
+		markerI.bindPopup(title);
+		markers.addLayer(marker);
+	
+var controlSearch = new L.Control.Search({
+		position:'topleft',
+		layer: markers,
+		initial: false,
+		collapsed: false,
+		zoom: 18,
+		
+		
+});	
+	
+	
+	map.addControl( controlSearch ); 
+	
+	for(i in data) {
+		var title = data[i].title,	//value searched
+			loc = data[i].loc,		//position found
+			marker = new L.Marker(new L.latLng(loc), {title: title} );//se property searched
+		marker.bindPopup('title: '+ title );
+		markersLayer.addLayer(marker );
+	}
+
+
+</script>
+
+
+	
+	
+</body>
+</html>
