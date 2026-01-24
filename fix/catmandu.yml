@@ -1,0 +1,13 @@
+---
+importer:
+  xlsx:
+     package: XLSX
+     options:
+exporter:
+  csv:
+     package: CSV
+     options: 
+       fix: xlsx2csv.fix
+       fields: id,preferredName,entityType,label,country,street
+       header: 1
+...
