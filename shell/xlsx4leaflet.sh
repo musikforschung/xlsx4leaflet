@@ -14,12 +14,12 @@ done
 echo "
 Verarbeitung begonnen"
 
-if [ -f example.js ]; then
-   rm example.js
+if [ -f template.js ]; then
+   rm template.js
 fi &&
 
-if [ -f example.csv ]; then
-   rm example.csv
+if [ -f template.csv ]; then
+   rm template.csv
 fi &&
 
 if [ -f template.xlsx ]; then
