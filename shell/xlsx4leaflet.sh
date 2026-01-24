@@ -14,27 +14,33 @@ done
 echo "
 Verarbeitung begonnen"
 
-if [ -f template.js ]; then
-   rm template.js
+if [ -f example.js ]; then
+   rm example.js
 fi &&
 
-if [ -f template.csv ]; then
-   rm template.csv
+if [ -f example.csv ]; then
+   rm example.csv
 fi &&
 
 if [ -f template.xlsx ]; then
    mv template.xlsx ${Title}.xlsx
 fi &&
 
-sed -i "5s/xlsx4leaflet/\l$Title/g" index.html
-sed -i "s/src\=\"template\.js\"/src\=\"\l$Title\.js\"/g" index.html
+sed -i "5s/xlsx4leaflet/\l$Title/g" index.html &&
+sed -i "s/src\=\"template\.js\"/src\=\"\l$Title\.js\"/g" index.html &&
+sed -i "s/\.\/template\.xlsx/\.\/\l$Title\.xlsx/g" ./fix/catmandu.yml &&
 
-catmandu convert XLSX to Text --fix ./fix/xlsx4leaflet.fix < ${Title}.xlsx > ${Title}.js &&
+cd ./fix
+
+catmandu convert xlsx to js > ../${Title}.js &&
+catmandu convert xlsx to csv > ../${Title}.csv &&
+
+cd ..
 
 sed -i '1ivar addressPoints = [' ${Title}.js &&
 sed -i '$a];' ${Title}.js &&
 
-cd fix
-catmandu convert xlsx < ../${Title}.xlsx > ../${Title}.csv &&
+
+
 
 echo "Verarbeitung erfolgreich."

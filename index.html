@@ -4,19 +4,18 @@
 	<meta charset="UTF-8">
 	<title>xlsx4leaflet</title>
 
-	<link rel="stylesheet" href="./lib/mapbox.css" />
-	<script src="./lib/mapbox.js"></script>
+	<link rel="stylesheet" href="./leaflet/lib/mapbox.css" />
+	<script src="./leaflet/lib/mapbox.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel="stylesheet" href="./dist/MarkerCluster.css" />
-	<link rel="stylesheet" href="./dist/MarkerCluster.Default.css" />
-	<script src="./dist/leaflet.markercluster-src.js"></script>
-	<script charset="UTF-8" src="template.js"></script>
+   	<link rel="stylesheet" href="./leaflet/dist/MarkerCluster.css" />
+	<link rel="stylesheet" href="./leaflet/dist/MarkerCluster.Default.css" />
+	<script src="./leaflet/dist/leaflet.markercluster-src.js"></script>
+	<link rel="stylesheet" href="./leaflet/dist/L.Icon.Pulse.css" />
+    <link rel="stylesheet" href="./leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="./leaflet/src/leaflet-search.css" /> 
+    <link rel="stylesheet" href="./leafletstyle.css" />	
 	
-	
- <link rel="stylesheet" href="./dist/leaflet.css" />
- <link rel="stylesheet" href="./src/leaflet-search.css" /> 
- <link rel="stylesheet" href="style.css" />					
+    <script charset="UTF-8" src="template.js"></script>
 
  
 	
@@ -28,12 +27,16 @@
 		html, body, #map {
 			height: 100%;
 		}
+		
+		a:link { text-decoration:none; }
+		
+		
 	</style>
 	<style type="text/css">
-		a:link { text-decoration:none; }
+		
 	</style>
 	
-	<link rel="stylesheet" href="./dist/L.Icon.Pulse.css" />
+	
 	
 
 	
@@ -45,45 +48,47 @@
 	
 	
 	
-	<script type="text/javascript"></script>
-	<script src="./dist/L.Icon.Pulse.js"></script>
-	<script src="./dist/leaflet.js"></script>
-	<script src="./src/leaflet-search.js"></script>		
+<script type="text/javascript"></script>
+<!-- <script src="./leaflet/dist/L.Icon.Pulse.js"></script>  // removing the comment activates icon pulses -->
+<script src="./leaflet/dist/leaflet.js"></script>
+<script src="./leaflet/src/leaflet-search.js"></script>		
 
 <script>
-// Initialisierung der Karte auf Berlin Zentrum
+// Initializing the map on center of Berlin
 var map = L.map('map').setView([52.500623108593, 13.376227531435], 13); 
 
-// Layer 1
+// Base layer
 var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
+    maxZoom: 16,
 	attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Layer 2
-
+// Additional layer for historical map - can be modified or deactivated
 var berlin1925 = L.tileLayer('https://warper.wmflabs.org/maps/tile/1145/{z}/{x}/{y}.png', {
     layers: 'berlin1925',
     format: 'image/png',
     transparent: true,
-	maxZoom: 18,
+	maxZoom: 16,
     attribution: '&copy; Wikimaps Warper'
 }).addTo(map);
 
-// Layer-Steuerung
+
+// Layer control
 var baseMaps = {
     "OpenStreetMap": osm
 };
 var overlayMaps = {
     "Berlin um 1925": berlin1925,
+		
 };
 
-L.control.layers(baseMaps, overlayMaps).addTo(map);
+   L.control.layers(baseMaps, overlayMaps).addTo(map);
 
+// Integrating the markers as a layer using data from the JS file
 var markers = new L.MarkerClusterGroup();
         for (var i = 0; i < addressPoints.length; i++) {
 			var a = addressPoints[i];
-			var title = a[2];
+			var title = a[2]; // 2 points to data that is in second place in your data js-file (comma separated)
 			var name = a[3]
 			var colormarker = a[4]
 			var typemarker = a[5]
@@ -98,7 +103,14 @@ var markers = new L.MarkerClusterGroup();
 
 	map.addLayer(markers);
     
+// Icon Pulse
+var pulsingIcon = L.icon.pulse({iconSize:[12,12],color:'red'});
 
+		var markerI = L.marker([52.51770,13.39158],{icon: pulsingIcon}).addTo(map);
+		markerI.bindPopup(title);
+		markers.addLayer(marker);
+
+// Search box	
 var controlSearch = new L.Control.Search({
 		position:'topleft',
 		layer: markers,
@@ -112,10 +124,11 @@ var controlSearch = new L.Control.Search({
 	
 	map.addControl( controlSearch ); 
 	
+// Controls the search parameters in the js file with your data
 	for(i in data) {
 		var title = data[i].title,	//value searched
 			loc = data[i].loc,		//position found
-			marker = new L.Marker(new L.latLng(loc), {title: title} );//se property searched
+			marker = new L.Marker(new L.latLng(loc), {title: title} );//see property searched
 		marker.bindPopup('title: '+ title );
 		markersLayer.addLayer(marker );
 	}
@@ -123,8 +136,6 @@ var controlSearch = new L.Control.Search({
 
 </script>
 
-
-	
 	
 </body>
 </html>

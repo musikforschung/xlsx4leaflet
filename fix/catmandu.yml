@@ -3,7 +3,12 @@ importer:
   xlsx:
      package: XLSX
      options:
+       file: ../template.xlsx
 exporter:
+  js:
+     package: Text
+     options: 
+       fix: xlsx4leaflet.fix
   csv:
      package: CSV
      options: 
