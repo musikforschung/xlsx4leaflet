@@ -41,9 +41,10 @@ coordinates
 
 # Usage
 
-* use this template
+* use this template to create your own project
 * `chmod +x ./shell/xlsx4leaflet.sh`
 * use template.xlsx to add some data
+* use directory img to add some images or enter a URL in the table 
 * run shell and give the project a title
 * use GitHub pages to visualize the data
 
