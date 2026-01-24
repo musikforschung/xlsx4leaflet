@@ -41,7 +41,7 @@ coordinates
 
 # Usage
 
-* fork repository
+* use this template
 * `chmod +x ./shell/xlsx4leaflet.sh`
 * use template.xlsx to add some data
 * run shell and give the project a title
