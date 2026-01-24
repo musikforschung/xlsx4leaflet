@@ -8,6 +8,6 @@ exporter:
      package: CSV
      options: 
        fix: xlsx2csv.fix
-       fields: id,preferredName,entityType,label,country,street
+       fields: id,preferredName,entityType,label,country,street,street,streetNumber,addressSource,latitude,longitude,coordinatesSource,dateOfEstablishment,dateOfEstablishmentSource,dateOfTermination,dateOfTerminationSource,dateOfEvent,dateOfEventSource,sameAsName,sameAsURL,biographicalOrHistoricalInformation,biographicalOrHistoricalInformationSource,depictionName,depictionText,depictionCeator,depictionPublisher,depictionSource,depictionLicense,depictionLicenseURI
        header: 1
 ...
