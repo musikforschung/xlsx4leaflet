@@ -31,7 +31,7 @@ coordinates
 * depictionName (string (directory path/URL)
 * depictionFormat (string (jpg or png))
 * depictionWidth (integer (pixel))
-* depictionHighth (integer (pixel))
+* depictionHight (integer (pixel))
 * depictionText (string)
 * depictionCeator (string)
 * depictionPublisher (string)
