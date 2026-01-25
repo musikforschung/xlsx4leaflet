@@ -1,258 +1,185 @@
-
 #latitude
 if any_match(latitude,'^-?\d{1,3}\.\d+$')
-   copy(latitude,tmp.0)
-   trim(tmp.0)
-   append(tmp.0,',')
+   copy(latitude,result.0)
+   append(result.0,",")
 end
 #longitude
 if any_match(longitude,"^-?\d{1,3}\.\d+$")
-   copy_field(longitude,tmp.1)
-   trim(tmp.1)
-   append(tmp.1,',"')
+   copy_field(longitude,result.1)
+   append(result.1,',"')
 end
+
+##paragraph1
 #preferredName
 if any_match(preferredName,'\w+')
-   copy(preferredName,tmp.2)
-   replace_all(tmp.2,'"','\\"')
-   prepend(tmp.2,'<p><b>')
-   trim(tmp.2)
+   copy(preferredName,p1_name)
 end
 #dateOfEstablishment
-if any_match(dateOfEstablishment,'.*')
-   copy(dateOfEstablishment,tmp_dat.0)
-   trim(tmp_dat.0)
+if any_match(dateOfEstablishment,'\d.*')
+   copy(dateOfEstablishment,p1_date.0)
 end
 #dateOfTermination
-if any_match(dateOfTermination,'.*')
-   copy(dateOfTermination,tmp_dat.1)
-   trim(tmp_dat.1)
+if any_match(dateOfTermination,'\d.*')
+   copy(dateOfTermination,p1_date.1)
 end
-if exists(tmp_dat.0)
-   if exists(tmp_dat.1)
-      join_field(tmp_dat,'-')
-	  copy_field(tmp_dat,tmp.3)
-   else
-      copy_field(tmp_dat.0,tmp.3)
+if exists(p1_date.0)
+   if exists(p1_date.1)
+      join_field(p1_date,"-")
    end
 end
 #dateOfEvent
-#if exists(dateOfEvent)
-#   copy(dateOfEvent,tmp.3)
-#   trim(tmp.3)
-#end
-if exists(tmp.3)
-   prepend(tmp.3,' \| ')
-   append(tmp.3,'</b><br>')
-else
-   append(tmp.2,'</b><br>')
+if any_match(dateOfEvent,'\d.*')
+   copy_field(dateOfEvent,p1_date)
 end
-#country
-if any_match(country,'.+')
-   copy(country,tmp_cty)
-   replace_all(tmp_cty,'"','\\"')
-   trim(tmp_cty)
+if any_match(country,'.*')
+    copy(country,p1_addr.0)
 end
-#street
-if any_match(street,'.+')
-   copy(street,tmp_add.0)
-   replace_all(tmp_add.0,'"','\\"')
-   trim(tmp_add.0)
+if any_match(street,'.*')
+    copy(street,p1_addr.1.0)
 end
-#streetNumber
 if any_match(streetNumber,'\d.*')
-   copy(streetNumber,tmp_add.1)
-   replace_all(tmp_add.1,'"','\\"')
-   trim(tmp_add.1)
+    copy(streetNumber,p1_addr.1.1)
 end
-if exists(tmp_add.0)
-   if exists(tmp_add.1)
-      join_field(tmp_add,' ')
+join_field(p1_addr.1," ")
+if exists(p1_addr.0)
+   if exists(p1_addr.1)
+      join_field(p1_addr," | ")
+   else
+      join_field(p1_addr," ")
    end
 end
-if exists(tmp_cty)
-   if exists(tmp_add)
-      copy_field(tmp_cty,tmp.4.0)
-	  copy_field(tmp_add,tmp.4.1)
-	  join_field(tmp.4,' \| ')
-   end
+#merge paragraph1
+if exists(p1_name)
+    copy(p1_name,paragraph1.0.$append)
+    if exists(p1_date)
+	   copy(p1_date,paragraph1.0.$append)
+	   join_field(paragraph1.0," | ")
+    end
 end
-prepend(tmp.4,'</b>')
-append(tmp.4,'<\p>')
-#biographicalOrHistoricalInformation
-if any_match(biographicalOrHistoricalInformation,'.+')
-   copy(biographicalOrHistoricalInformation,tmp.5)
-   replace_all(tmp.5,'"','\\"')
-   trim(tmp.5)
+prepend(paragraph1.0,"<b>")
+append(paragraph1.0,"</b>")
+
+if exists(p1_addr)
+    copy(p1_addr,paragraph1.1)
 end
-if exists(tmp.5)
-   append(tmp.5,'<\p><br>')
-   prepend(tmp.5,'<p>')
+#html-tags paragraph1
+join_field(paragraph1,"<br>")
+if exists(paragraph1)
+    prepend(paragraph1,"<p>")
+    append(paragraph1,"</p>")
 end
 
-#depictionName
-if any_match(depictionName,'http.*')
-   copy_field(depictionName,pic_url)
-   replace_all(pic_url,'"','\\"')
-   trim(pic_url)
-   prepend(pic_url,'<img src=')
-   append(pic_url,'<br>')
-   copy_field(pic_url,tmp.6)
+##paragraph2
+if any_match(biographicalOrHistoricalInformation,'.*')
+    copy(biographicalOrHistoricalInformation,paragraph2)
+    prepend(paragraph2,"<p>")
+    append(paragraph2,"</p>")
+end
+
+##paragraph3
+#name
+if any_match(depictionName,'.*')
+   copy(depictionName,p3_img.0.1)
+end
+if any_match(p3_img.0.1,"http.*")
+   set_field(p3_img.0.0,"<img src=")
+   set_field(p3_img.0.2,">")
 else
-   copy_field(depictionName,pic_path.0)
-   replace_all(pic_path.0,'"','\\"')
-   trim(pic_path.0)
-   prepend(pic_path.0,'<img src=img/')
+   add_field(p3_img_dim.0,"<img width=")
+   copy_field(depictionWidth,p3_img_dim.1)
+   set_field(p3_img_dim.2," hight=")
+   copy_field(depictionHight,p3_img_dim.3)
+   set_field(p3_img_dim.4," src=img/")
+   join_field(p3_img_dim,'')
+   move_field(p3_img_dim,p3_img.0.0)
+   set_field(p3_img.0.2,".")
+   copy_field(depictionFormat,p3_img.0.3)
+   append(p3_img.0.3,">")
 end
-#depictionFormat
-if any_match(depictionFormat,'jpg|png')
-   copy_field(depictionFormat,pic_path.1)
-   trim(pic_path.1)
-   prepend(pic_path.1,'.')
+join_field(p3_img.0)
+join_field(p3_img)
+##meta
+#text
+if any_match(depictionText,'.*')
+   copy(depictionText,p3_meta.0)
 end
-join_field(pic_path)
-append(pic_path,' ')
-copy_field(pic_path,tmp.6)
-#depictionWidth
-if any_match(depictionWidth,'\d{3}')
-   copy_field(depictionWidth,pic_dim.0)
-   trim(pic_dim.0)
-   prepend(pic_dim.0,'width=')
+#creator
+if any_match(depictionCreator,'\w.*')
+   copy(depictionCreator,p3_meta.1.$append)
+   prepend(p3_meta.1.0,"Urheber*in: ") 
 end
-#depictionHighth
-if any_match(depictionHighth,'\d{3}')
-   copy_field(depictionHighth,pic_dim.1)
-   trim(pic_dim.1)
-   prepend(pic_dim.1,'height=')
+#source
+if any_match(depictionSource,"http.*")
+   copy(depictionSource,p3_meta.2.0)
 end
-join_field(pic_dim,' ')
-append(pic_dim,'<br>')
-copy_field(pic_dim,tmp.7)
-
-#depictionText
-if any_match(depictionText,'.+')
-   copy_field(depictionText,tmp_pic_txt)
-   replace_all(tmp_pic_txt,'"','\'')
-   trim(tmp_pic_txt)
+#publisher 
+if any_match(depictionPublisher,'.*')
+   copy(depictionPublisher,p3_meta.2.1)
 end
-if exists(tmp_pic_txt)
-   prepend(tmp_pic_txt,'<br>')
-   append(tmp_pic_txt,'<br>')
-   copy_field(tmp_pic_txt,tmp.8)
-end
-#depictionCeator
-if any_match(depictionCeator,'.+')
-   copy_field(depictionCeator,tmp_pic_pub.0)
-   replace_all(tmp_pic_pub.0,'"','\'')
-   trim(tmp_pic_pub.0)
-end
-if exists(tmp_pic_pub.0)
-   prepend(tmp_pic_pub.0,'Urheber*in: ')
-   copy_field(tmp_pic_pub.0,tmp_pic.1)
-   remove_field(tmp_pic_pub.0)
-end
-#depictionSource
-if any_match(depictionSource ,'.+')
-   copy_field(depictionSource ,tmp_pic_pub.0)
-   replace_all(tmp_pic_pub.0,'"','\\"')
-   trim(tmp_pic_pub.0)
-end
-#depictionPublisher 
-if any_match(depictionPublisher ,'.+')
-   copy_field(depictionPublisher ,tmp_pic_pub.1)
-   replace_all(tmp_pic_pub.1,'"','\'')
-   trim(tmp_pic_pub.1)
-   
-end
-if exists(tmp_pic_pub.0)
-   if exists(tmp_pic_pub.1)
-      prepend(tmp_pic_pub.0,'<a href=')
-	  prepend(tmp_pic_pub.1,'target=_blank>')
-	  append(tmp_pic_pub.1,'</a>')
-	  join_field(tmp_pic_pub,' ')
-	  copy_field(tmp_pic_pub,tmp_pic.2)
-	  prepend(tmp_pic.2,'Quelle: ')
-   else
-      copy_field(tmp_pic_pub.1,tmp_pic.2)
-	  prepend(tmp_pic.2,'Quelle: ')
+if exists(p3_meta.2.0)
+   if exists(p3_meta.2.1)
+      prepend(p3_meta.2.0,"<a href='")
+      prepend(p3_meta.2.1,"' target='_blank'>")
+      append(p3_meta.2.1,"</a>")
+      join_field(p3_meta.2," ")
    end
 end
-join_field(tmp_pic,' \| ')
-copy_field(tmp_pic,tmp.9)
-if exists(tmp.9)
-   prepend(tmp.9,'<sup>')
-   append(tmp.9,'</sup><br>')
-end
-#depictionLicenseURI
-if any_match(depictionLicenseURI,'.+')
-   copy_field(depictionLicenseURI,tmp_pic_lic.0)
-   replace_all(tmp_pic_lic.0,'"','\\"')
-   trim(tmp_pic_lic.0)
-end
-#depictionLicense
-if any_match(depictionLicense,'.+')
-   copy_field(depictionLicense,tmp_pic_lic.1)
-   replace_all(tmp_pic_lic.1,'"','\\"')
-   trim(tmp_pic_lic.1)
-end
-if exists(tmp_pic_lic.0)
-   if exists(tmp_pic_lic.1)
-      prepend(tmp_pic_lic.0,'<a href=')
-	  prepend(tmp_pic_lic.1,'target=_blank>')
-	  append(tmp_pic_lic.1,'</a>')
-	  join_field(tmp_pic_lic,' ')
-	  copy_field(tmp_pic_lic,tmp.10)
-   else
-      copy_field(tmp_pic_lic.1,tmp.10)
+prepend(p3_meta.2,"Quelle: ") 
+if exists(p3_meta.1)
+   if exists(p3_meta.2)
+      move(p3_meta.2,p3_meta.1.$append)
+	  join_field(p3_meta.1," | ")
    end
 end
-if exists(tmp.10)
-   prepend(tmp.10,'<sup>')
-   append(tmp.10,'</sup><br>')
+join(p3_meta,"<br>")
+#img
+if exists(p3_img)
+    copy(p3_img,paragraph3.0)
 end
-#sameAsURL
-if any_match(sameAsURL,'.+')
-   copy_field(sameAsURL,tmp_sas.0)
-   replace_all(tmp_sas.0,'"','\'')
-   trim(tmp_sas.0)
+if exists(p3_meta)
+    copy(p3_meta,paragraph3.1)
 end
-#sameAsName
-if any_match(sameAsName,'.+')
-   copy_field(sameAsName,tmp_sas.1)
-   replace_all(tmp_sas.1,'"','\\"')
-   trim(tmp_sas.1)
+#html-tags paragraph3
+join_field(paragraph3,"<br>")
+if exists(paragraph3)
+    prepend(paragraph3,"<p>")
+    append(paragraph3,"</p>")
 end
-if exists(tmp_sas.0)
-   if exists(tmp_sas.1)
-      prepend(tmp_sas.0,'<a href=')
-	  prepend(tmp_sas.1,'target=_blank>')
-	  append(tmp_sas.1,'</a>')
-	  join_field(tmp_sas,' ')
-	  prepend(tmp_sas,'<p>')
-	  append(tmp_sas,'<\p><br>')
-	  
-	  copy_field(tmp_sas,tmp.11)
-   else
-      prepend(tmp_sas.1,'<p>')
-	  append(tmp_sas.1,'<\p><br>')
-      copy_field(tmp_sas.1,tmp.11)
-   end
-end
-#marker
-if any_match(preferredName,'.+')
-   copy_field(preferredName,tmp.12)
-   replace_all(tmp.12,'"','\\"')
-   trim(tmp.12)
-end
-prepend(tmp.12,'","')
-append(tmp.12,'","3ec400","music"')
 
-#merge all fields
-join_field(tmp)
-prepend(tmp,'[')
-append(tmp,'],')
+##paragraph4
+if any_match(sameAsURL,"http.*")
+   copy(sameAsURL,p4_link.0)
+   prepend(p4_link.0,"<a href='")
+   if any_match(sameAsName,'.*')
+      copy(sameAsName,p4_link.1)
+	  prepend(p4_link.1,"' target='_blank'>")
+      append(p4_link.1,"</a>")
+      join_field(p4_link,"")
+    end
+end
+copy(p4_link,paragraph4)
 
+#merge paragraphs
+copy(paragraph1,final.0)
+copy(paragraph2,final.1)
+copy(paragraph3,final.2)
+copy(paragraph4,final.3)
+
+join_field(final,"")
+
+copy(final,result.2.0)
+replace_all(result.2.0,'"','\\"')
+copy(preferredName,result.2.1)
+prepend(result.2.1,'","')
+append(result.2.1,'",')
+set_field(result.2.2,'"3ec400"')
+join_field(result.2,"")
+
+
+join_field(result,"")
+prepend(result,"[")
+append(result,"],")
+
+move_field(result,tmp)
 vacuum()
-
-select exists(tmp)
 retain(tmp)

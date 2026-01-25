@@ -3,7 +3,6 @@ importer:
   xlsx:
      package: XLSX
      options:
-       file: ../template.xlsx
 exporter:
   js:
      package: Text
