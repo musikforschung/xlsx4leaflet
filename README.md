@@ -15,8 +15,8 @@ address
 * streetNumber (string)
 * addressSource (string (string (text,url,date))
 coordinates
-* latitude (decimal degrees - EPSG:4326, points (ISO 6709)
-* longitude (decimal degrees - EPSG:4326, points (ISO 6709)
+* latitude (decimal degrees - EPSG:4326, points (ISO 6709) NOT NULL
+* longitude (decimal degrees - EPSG:4326, points (ISO 6709) NOT NULL
 * coordinatesSource (string (string (text,url,date))
 * dateOfEstablishment (string)
 * dateOfEstablishmentSource (string (text,url,date))
