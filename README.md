@@ -2,7 +2,7 @@
 
 <summary>English version</summary>
 
-[Leaflet](https://github.com/Leaflet/Leaflet) is an open-source JavaScript library for interactive maps. This template is used to collect and publish research data with geographic points from smaller projects in tabular form. Using catmandu, JavaScript arrays for integration into Leaflet are generated from the xlsx file. Additionally, a csv file is created for publishing the data, for example, on Zenodo.
+[Leaflet](https://github.com/Leaflet/Leaflet) is an open-source JavaScript library for interactive maps. This template is used to collect and publish research data with geographic points for smaller projects at [SIM] (https://www.simpk.de/forschung.html) in tabular form. Using catmandu, JavaScript arrays for integration into Leaflet are generated from the xlsx file. Additionally, CSV and TSV files are created for publishing the data, for example, on Zenodo.
 
 # Currently supported data fields
 * id (string, URI)
@@ -43,7 +43,7 @@ coordinates
 
 * use this template to create your own project
 * `chmod +x ./shell/xlsx4leaflet.sh`
-* use template.xlsx to add some data
+* use template/template.xlsx to add some data including citation of the sources
 * use directory img to add some images or enter a URL in the table 
 * run shell and give the project a title
 * use GitHub pages to visualize the data
