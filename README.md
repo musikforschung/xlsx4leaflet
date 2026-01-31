@@ -2,7 +2,7 @@
 
 <summary>English version</summary>
 
-[Leaflet](https://github.com/Leaflet/Leaflet) is an open-source JavaScript library for interactive maps. This template is used to collect and publish research data with geographic points for smaller projects at [SIM] https://www.simpk.de/forschung.html) in tabular form. Using catmandu, JavaScript arrays for integration into Leaflet are generated from the XLSX file. Additionally, CSV and TSV files are created for publishing the data, for example, on Zenodo.
+[Leaflet](https://github.com/Leaflet/Leaflet) is an open-source JavaScript library for interactive maps. This template is used to collect and publish research data with geographic points for smaller projects at [SIM](https://www.simpk.de/forschung.html) in tabular form. Using catmandu, JavaScript arrays for integration into Leaflet are generated from the XLSX file. Additionally, CSV and TSV files are created for publishing the data, for example, on Zenodo.
 
 # Currently supported data fields
 * id (string, URI)
